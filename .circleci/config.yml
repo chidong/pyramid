@@ -18,7 +18,7 @@ jobs:
   backend-bundle_gem_dependencies:
     docker:
       - image: circleci/ruby:2.7.2-node
-    working_directory: ~/rails-react-typescript-docker-example
+    working_directory: ~/pyramid
     steps:
       - checkout
       - restore_cache:
@@ -32,14 +32,14 @@ jobs:
             bundle check --path=vendor/bundle || bundle install --clean --frozen --path=vendor/bundle --jobs=4 --retry=3
       - save_cache:
           paths:
-            - ~/rails-react-typescript-docker-example/backend/vendor/bundle
+            - ~/pyramid/backend/vendor/bundle
           key: gem-v1-dependencies-{{ checksum "backend/Gemfile.lock" }}
 
   backend-test:
     docker:
       - image: circleci/ruby:2.7.2-node
       - image: circleci/postgres:11-alpine
-    working_directory: ~/rails-react-typescript-docker-example
+    working_directory: ~/pyramid
     steps:
       - checkout
       - restore_cache:
@@ -56,7 +56,7 @@ jobs:
   frontend-bundle_npm_dependencies:
     docker:
       - image: circleci/node:14
-    working_directory: ~/rails-react-typescript-docker-example
+    working_directory: ~/pyramid
     steps:
       - checkout
       - restore_cache:
@@ -70,13 +70,13 @@ jobs:
             yarn install
       - save_cache:
           paths:
-            - ~/rails-react-typescript-docker-example/frontend/node_modules
+            - ~/pyramid/frontend/node_modules
           key: npm-v1-dependencies-{{ checksum "frontend/yarn.lock" }}
 
   frontend-test:
     docker:
       - image: circleci/node:14
-    working_directory: ~/rails-react-typescript-docker-example
+    working_directory: ~/pyramid
     steps:
       - checkout
       - restore_cache:
